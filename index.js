@@ -9,7 +9,7 @@ const get_message_content = (rules, stream, topic, sender_full_name, sender_id) 
     if (!rule_to_apply) return;
     const mention_text = `@**${sender_full_name}|${sender_id}**`
     const silent_mention_text = `@_**${sender_full_name}|${sender_id}**`
-    const message = rule_to_apply.get_message(mention_text, silent_mention_text);
+    const message = rule_to_apply.get_message(mention_text, silent_mention_text, topic);
     return message;
 };
 
@@ -44,7 +44,6 @@ zulip({ zuliprc }).then(z => {
     const handle_event = async (event) => {
         try {
             if (!await is_first_message_in_topic(event)) {
-                console.log(`topic-minder: Ignoring event.`);
                 return;
             }
             const stream = event.message.display_recipient;
@@ -67,4 +66,5 @@ zulip({ zuliprc }).then(z => {
         }
     };
     z.callOnEachEvent(handle_event, ['message']);
+    console.log(`topic-minder: Listening for ${config.rules.length} rules.`);
 });
