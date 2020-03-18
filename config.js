@@ -1,34 +1,15 @@
+const rule_bank = require('./rule_bank');
 module.exports = {
     rules: [
         {
             stream: 'code review',
-            test_topic: function (topic) {
-                return /^\s*#\d+\s*$/.test(topic)
-            },
-            get_message: function (mention_text, silent_mention_text) {
-                let msg = `Hi ${mention_text}, thanks for posting here! `;
-                msg += `To ensure that this topic is easier to find later, `;
-                msg += `we follow the convention to have the topic name contain a short description of the issue as well. `;
-                msg += 'For example, `#12345` could be rewritten as `#12345 pgroonga migration failure`. '
-                msg += 'Please edit the topic accordingly.';
-                msg += '\n\n*(This is an automated message)*.';
-                return msg;
-            },
+            test_topic: rule_bank.tests.standalone_github_issue_number,
+            get_message: rule_bank.responses.standalone_github_issue_number,
         },
         {
             stream: 'test here',
-            test_topic: function (topic) {
-                return /^\s*#\d+\s*$/.test(topic)
-            },
-            get_message: function (mention_text, silent_mention_text) {
-                let msg = `Hi ${silent_mention_text}, thanks for posting here! `;
-                msg += `To ensure that this topic is easier to find later, `;
-                msg += `we follow the convention to have the topic name contain a short description of the issue as well. `;
-                msg += 'For example, `#12345` could be rewritten as `#12345 pgroonga migration failure`. '
-                msg += 'Please edit the topic accordingly.';
-                msg += '\n\n*(This is an automated message)*.';
-                return msg;
-            },
+            test_topic: rule_bank.tests.standalone_github_issue_number,
+            get_message: rule_bank.responses.standalone_github_issue_number,
         },
         {
             stream: 'test here',
